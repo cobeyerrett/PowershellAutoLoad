@@ -29,12 +29,8 @@ function Check-ResourceGroup
             return $false
         }
     } else {
-    if ($add)  { 
-            Write-Verbose "$ResourceGroupName exists in location -Add is set to $true" 
+            Write-Verbose "$ResourceGroupName exists in location" 
             return $true
-        } else {
-            Write-Verbose "$ResourceGroupName exists in location -Add is not set" 
-            return $false 
-        }
+        
     } 
 }
