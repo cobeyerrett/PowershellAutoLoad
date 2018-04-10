@@ -38,8 +38,7 @@ function create-resourceGroup
 
     try {
 
-        $sub = Get-AzureRmSubscription -SubscriptionName $subscription -ErrorAction
-Stop   
+        $sub = Get-AzureRmSubscription -SubscriptionName $subscription -ErrorAction Stop   
 
         Set-AzureRmContext -Subscription $sub -ErrorAction Stop
 
@@ -47,8 +46,7 @@ Stop  
 
     catch {
 
-        Write-Host "No Such
-Subscription found" -ForegroundColor Yellow
+        Write-Host "No Such Subscription found" -ForegroundColor Yellow
 
         exit
 
@@ -65,11 +63,9 @@ Subscription found" -ForegroundColor Yellow
 
         $rg_name = "$projectName$num-$subscription-rg"
 
-        if (!(Check-ResourceGroup
--ResourceGroupName $rg_name -Location $location)) {
+        if (!(Check-ResourceGroup -ResourceGroupName $rg_name -Location $location)) {
 
-            Write-Host -ForegroundColor Yellow "The RG does not exist. 
-Creating"
+            Write-Host -ForegroundColor Yellow "The RG does not exist. Creating"
 
             #creates new resource group 
 
@@ -97,34 +93,27 @@ Creating"
 
     #Geta the Apply Tag Builtin Policy
 
-    $policy = Get-AzureRmPolicyDefinition -Id
-/providers/Microsoft.Authorization/policyDefinitions/2a0e14a6-b0a6-4fab-991a-187a4f81c498
+    $policy = Get-AzureRmPolicyDefinition -Id /providers/Microsoft.Authorization/policyDefinitions/2a0e14a6-b0a6-4fab-991a-187a4f81c498
 
     #Applies the policy to the resource group
 
-    New-AzureRmPolicyAssignment -Name
-BilltoApply -Scope $rg.ResourceId -PolicyDefinition $policy
--PolicyParameterObject $param
+    New-AzureRmPolicyAssignment -Name BilltoApply -Scope $rg.ResourceId -PolicyDefinition $policy -PolicyParameterObject $param
 
     
 
     #Gets the Enforce Tag Builtin Policy
 
-    $policy = Get-AzureRmPolicyDefinition -Id
-/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62
+    $policy = Get-AzureRmPolicyDefinition -Id /providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62
 
 
  
 
     #Applies the policy to the resource group
 
-    New-AzureRmPolicyAssignment -Name
-BilltoEnforce -Scope $rg.ResourceId -PolicyDefinition $policy
--PolicyParameterObject $param
+    New-AzureRmPolicyAssignment -Name BilltoEnforce -Scope $rg.ResourceId -PolicyDefinition $policy -PolicyParameterObject $param
 
  
 
-    
 
 }
 
